@@ -1,0 +1,121 @@
+//#transpile { to: 'core' }
+
+#use "html"
+
+#cell guess_cell
+#cell guesses_cell = 1
+
+var guessesbadgeelem;
+var submitguess;
+
+function guessinggame_comp (player) {
+  <div class="guessing-game-play-area">
+    <h2 id="prompt">What number am I thinking of${(if(player) (player + " ") else "")}? <br/>(between 1 and 100)</h2>
+    <br/>
+    <button id="playagain" class="hidden" onclick="location.reload();">Play Again?</button>
+    <div class="guessing-game-outer">
+      <div class="aligner">
+        <div class="aligner-item aligner-item--fixed">
+          <div class="guess-box-inner">
+            <form id="guessnumber">
+              <input type="text" name="guess" class="number-input"/>
+              <button id="submitguess" type="submit" class="number-btn btn btn-primary">Guess&nbsp;&nbsp;<span id="guessesbadge"></span></button>
+            </form>
+            <h3 class="alert-info" id="feedback"></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+var number;
+
+function ingameprompt (guesses) {
+  cond {
+    case (< guesses 2)
+      "Nope. Guess again."
+    case (< guesses 4)
+      "Keep trying."
+    case (< guesses 6)
+      "I know you can do it."
+    case (< guesses 8)
+      "Really?  How many guesses can it take?"
+    case (< guesses 10)
+      "All right this is getting ridiculous."
+    default
+      "Why don't you let somebody else play."
+  }
+}
+
+<<$#prompt>> #= ingameprompt(guesses_cell);
+
+function feedbackmsg (guess) {
+  cond {
+    case (> guess number)
+      'Your guess was too high.'
+    case (< guess number)
+      'Your guess was too low.'
+    case (== number guess)
+      'That was it!!'
+    case (isNan guess)
+      'That\'s not a number!'
+    case (> guess 100)
+      'Hey keep it 100 or below would ya.'
+    case (< guess 0)
+      'Don\'t be so negative!!'
+  }
+}
+
+<<$#feedback>> #= feedbackmsg(guess_cell);
+
+function sillyness (guesses) { guesses }
+// the #= on the line below and on line 77 is causing an error
+//guessesbadgeElem.innerHTML #= sillyness(guesses_cell);
+
+function moresillyness (guesses) { if (> guesses 1) "badge" else "" }
+//guessesbadgeElem.className #= moresillyness(guesses_cell);
+
+function verify () {
+  guess_cell = Number(@elements.guess.value);
+  // binding function calls get inserted before this
+
+  (js "return") if (= guess_cell number) {
+    var playagain = $#playagain;
+    playagain.className = "btn btn-primary";
+    submitguess.disabled = true;
+    var rating = cond {
+      case (< guesses_cell 5) "excellent"
+      case (< guesses_cell 10) "mediocre"
+      case true "amateur"
+    };
+// the commented lines below are breaking!
+    //<<$#prompt>> = <span>Congratulations!!<br/>
+    // You got it in ${guesses_cell} guesses!!<br/>
+    // Your official number guesser rating is <i>${rating}</i></span>;
+    false
+  }
+  else
+  {
+    // the feedback element is initially hidden - show it:
+    var feedbackElem = $#feedback;
+    feedbackElem.className = "alert alert-info";
+
+    ++guesses_cell;
+    // binding function calls get inserted before this
+    false;
+  }
+  false;
+}
+
+
+function initguessmynumber() {
+  <<$#guessinggame>> = guessinggame_comp();
+  var guessnumber = $#guessnumber;
+  guessnumber.onsubmit = verify;
+  submitguess = $#submitguess;
+  submitguess.disabled = false;
+  guessesbadgeElem = $#guessesbadge;
+
+  number = Math.ceil( Math.random() * 100 );
+}

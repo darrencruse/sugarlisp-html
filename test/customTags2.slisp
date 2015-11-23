@@ -1,0 +1,63 @@
+#use "match"
+#use "html"
+
+//-- myb will likewise be expanded at compile time
+//-- "#keyword" means myb gets included in the current keywords
+#keyword (function myb {
+  case ``("myb" attrs body)``
+    <span id="${attrs.href}">${(@x body)}</span>
+
+  default (@error "missing argument for myb");
+})
+
+// using myb with lispy forms
+(console.log (tag "myb" (attr href "http://www.google.com") 
+  (tag "div" "hello")))
+
+// and myb with html forms
+(console.log <myb href="http://www.newtek.com">
+  <div>hello</div>
+</myb>)
+
+// a normal run-time function returning html
+/*
+(function myc (attrs body) {
+  <a ${attrs} myattr="bambam">${body}</a>
+})
+*/
+(function myc (attrs body) {
+  <a myattr="bambam">${body}</a>
+})
+
+// myc with lispy forms
+// note this is just a normal function call getting back html
+(console.log (myc { href: "http://www.google.com" }
+  (tag "div" "hello")))
+
+// myc with html forms
+(console.log (myc { href: "http://www.newtek.com" }
+  <div>hello</div>
+))
+
+// a more elaborate example
+(var mrflintstone
+  <div fname="fred" lname="flintstone">
+    ${(each ["barney", "betty", "bambam"]
+      (function (elem)
+        <mya id="${elem}">${elem}</mya>))}
+  </div>)
+(console.log (mrflintstone.toString))
+
+(macro lsml_each (attrs body)
+  (each ~attrs.collection
+      (function (~attrs.elem)
+        ~body)))
+
+(var mrsflintstone
+  <div fname="wilma" lname="flintstone">
+    <lsml_each coll="${["barney", "betty", "bambam"]}" elem="elem">
+      <mya id="${elem}">${elem}</mya>
+    </lsml_each>
+  </div>)
+(console.log (mrsflintstone.toString))
+

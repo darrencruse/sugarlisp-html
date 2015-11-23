@@ -1,0 +1,16 @@
+#use "html"
+
+(function base (title header body)
+  <html>
+    <head>
+      <title>${title}</title>
+      <meta name="pageTitle" value="${title}"/>
+    </head>
+    <body>
+      <h1>${header}</h1>
+      ${body}
+    </body>
+  </html>)
+
+(console.log (base "Title" "Header" "Body"))
+

@@ -1,0 +1,57 @@
+;; A Twitter like web app
+;; Requires express js.
+
+#use "html"
+
+;; The express server
+(var express (require "express"))
+(var bodyParser (require "body-parser"))
+(var app (express))
+(console.log "Listening on port 3000")
+(app.listen 3000)
+
+;; Templates we will be using
+;; Base template common to all pages.
+
+(function base (title header body)
+  <html>
+    <head>
+      <title>${title}</title>
+    </head>
+    <body>
+      <h1>${header}</h1>
+      ${body}
+    </body>
+  </html>)
+
+;; index page template. (the body part)
+
+(var tweets [])
+
+(function index ()
+  <div>
+    <h2>Enter Tweet</h2>
+    <form action='/send' method='POST'>
+       <input type='text' length='140' name='tweet'/>
+       <input type='submit' value='Tweet'/>
+     </form>
+     <h2>All Tweets</h2>
+     ${(.join (map tweets (function (elem)
+       <div>${elem}</div>)) "")}
+  </div>)
+
+(app.get "/"
+  (function (req res)
+    (res.send (base "Tweeter" "Tweeter" (index)))))
+
+(app.post "/send" (bodyParser)
+  (function (req res)
+    (if (&& req.body req.body.tweet)
+      (do
+        (tweets.push req.body.tweet)
+        (res.redirect "/"))
+      (res.send {status: "nok", message: "No tweet Received"}))))
+
+(app.get "/tweets"
+  (function (req res)
+    (res.send tweets)))

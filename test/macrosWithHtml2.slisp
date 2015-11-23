@@ -1,0 +1,18 @@
+#use "html"
+
+//-- mya will be expanded at compile time
+//-- (as are all named macros)
+(macro mya (attrs body)
+  (tag "a" ~attrs ~body))
+
+(macro lsml_each (attrs body)
+  ((map ~attrs.collection (function (~(sl.valueOfStr attrs.elem))
+    ~body)).join ""))
+
+(var mrsflintstone
+  <div fname="wilma" lname="flintstone">
+    <lsml_each collection="${["barney", "betty", "bambam"]}" elem="character">
+      <mya id="${character}">${character}</mya>
+    </lsml_each>
+  </div>)
+(console.log (mrsflintstone.toString))

@@ -1,0 +1,52 @@
+#use "html"
+
+//-- mya will be expanded at compile time
+//-- (as are all named macros)
+(macro mya (attrs body) 
+  (tag "a" ~attrs ~body))
+
+// using mya with lispy forms
+(console.log (tag "mya" (attr href "http://www.google.com") 
+  (tag "div" "hello")))
+
+// using mya with html forms
+// (this desugars same as the form above)
+(console.log <mya href="http://www.google.com">
+  <div>hello</div>
+</mya>)
+
+(macro myz (attrs body)
+  <a>${~body}</a>)
+
+// using myz with lispy forms
+(console.log (tag "myz" (attr href "http://www.google.com")
+  (tag "div" "hello")))
+
+// using myz with html forms
+(console.log <myz href="http://www.google.com">
+  <div>hello</div>
+</myz>)
+
+
+// a more elaborate example
+(var mrflintstone
+  <div fname="fred" lname="flintstone">
+    ${(each ["barney", "betty", "bambam"]
+      (function (elem)
+        <mya id="${elem}">${elem}</mya>))}
+  </div>)
+(console.log (mrflintstone.toString))
+
+(macro lsml_each (attrs body)
+  (each ~attrs.collection
+      (function (~attrs.elem)
+        ~body)))
+
+(var mrsflintstone
+  <div fname="wilma" lname="flintstone">
+    <lsml_each coll="${["barney", "betty", "bambam"]}" elem="elem">
+      <mya id="${elem}">${elem}</mya>
+    </lsml_each>
+  </div>)
+(console.log (mrsflintstone.toString))
+
