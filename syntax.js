@@ -20,7 +20,6 @@ exports['__html_innerhtml'] = {
       list.setOpening(openingBracketsToken);
 
       // read what's inside normally
-      // note ">>" operator is defined in core it still stop this read at ">>"
       list.push(reader.read(source));
 
       // skip the ending brackets
@@ -49,3 +48,7 @@ exports['$#'] = function(source) {
   list.setOpening(nextForm);
   return list;
 }
+
+// we need to define ">>" as a symbol so the reader stops
+// at the right point when reading the "elem" in <<elem>>
+exports[">>"] = reader.symbol;
