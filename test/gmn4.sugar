@@ -1,0 +1,11 @@
+//#transpile { to: 'core' }
+#use "html"
+
+#cell guesses_cell = 1
+
+var tgt = 0;
+
+tgt #= ingameprompt(guesses_cell);
+
+guesses_cell = 2;
+

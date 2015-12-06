@@ -1,0 +1,14 @@
+#cell mycell = 1
+
+var mytgt = "?";
+
+mytgt #= (mycell) => {
+  if?(mycell < 0) "negative" else "positive";
+};
+
+console.log("before anything: ${mytgt}");
+mycell = 12;
+console.log("after positive: ${mytgt}");
+mycell = -2;
+console.log("after negative: ${mytgt}");
+
