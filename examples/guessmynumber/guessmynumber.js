@@ -9,8 +9,8 @@ var submitguess = undefined;
 function guessinggame_comp(player) {
   return (
     "\n    <div class=\"guessing-game-play-area\">" + (
-      "\n      <h2 id=\"prompt\">" + "What number am I thinking of" + ((player() ?
-        ((player + " ")) :
+      "\n      <h2 id=\"prompt\">" + "What number am I thinking of" + ((player ?
+        (player + " ") :
         "")) + "? " + (
         "\n        <br/>") + "(between 1 and 100)" +
       "\n      </h2>") + (
@@ -53,8 +53,6 @@ function ingameprompt(guesses) {
               "Why don't you let somebody else play." : undefined))))));
 }
 
-(document.getElementById(">>,prompt,#=")).innerHTML;
-gameprompt(guesses_cell);
 
 function feedbackmsg(guess) {
   return ((guess > number) ?
@@ -71,52 +69,55 @@ function feedbackmsg(guess) {
               'Don\'t be so negative!!' : undefined))))));
 }
 
-(document.getElementById(">>,feedback,#=")).innerHTML;
-edbackmsg(guess_cell);
 
-function sillyness(guesses) {
-  return guesses();
-}
 
-function moresillyness(guesses) {
-  return ((guesses > 1) ?
-    "badge" :
-    "");
-}
 
 function verify() {
-  guess_cell = Number(this..(elements.guess, value));
-  return ( = (guess_cell, number) ?
-    (function() {
-      var playagain = document.getElementById(playagain);
-      playagain.className = "btn btn-primary";
-      submitguess.disabled = true;
-      var rating = ((guesses_cell < 5) ?
-        "excellent" :
-        ((guesses_cell < 10) ?
-          "mediocre" :
-          (true ?
-            "amateur" : undefined)));
-      return false;
-    })() :
-    (function() {
-      var feedbackElem = document.getElementById(feedback);
-      feedbackElem.className = "alert alert-info";
+  guess_cell = Number(this.elements.guess.value);
+  (document.getElementById("feedback")).innerHTML = feedbackmsg(guess_cell)
+  if ((guess_cell === number)) {
+    var playagain = document.getElementById("playagain");
+    playagain.className = "btn btn-primary";
+    submitguess.disabled = true;
+    var rating = ((guesses_cell < 5) ?
+      "excellent" :
+      ((guesses_cell < 10) ?
+        "mediocre" :
+        (true ?
+          "amateur" : undefined)));
+    (document.getElementById("prompt")).innerHTML = (
+      "\n      <span>" + "Congratulations!!" + (
+        "\n        <br/>") + "You got it in " + guesses_cell + " guesses!!" + (
+        "\n        <br/>") + "Your official number guesser rating is " + (
+        "\n        <i>" +
+        rating +
+        "\n        </i>") +
+      "\n      </span>");
+  } else {
+    var feedbackElem = document.getElementById("feedback");
+    feedbackElem.className = "alert alert-info";
 
-      ++guesses_cell;
-      return false;
-    })());
+    ++guesses_cell;
+    (document.getElementById("prompt")).innerHTML = ingameprompt(guesses_cell)
+    guessesbadgeElem.innerHTML = (function(guesses_cell) {
+      return guesses_cell;
+    })(guesses_cell)
+    guessesbadgeElem.className = (function(guesses_cell) {
+      return ((guesses_cell > 1) ?
+        "badge" :
+        "");
+    })(guesses_cell)
+  };
   return false;
 }
 
-
 function initguessmynumber() {
-  (document.getElementById(">>,guessinggame,=")).innerHTML;
-  essinggame_comp();
-  var guessnumber = document.getElementById(guessnumber);
+  (document.getElementById("guessinggame")).innerHTML = guessinggame_comp();
+  var guessnumber = document.getElementById("guessnumber");
   guessnumber.onsubmit = verify;
-  submitguess = document.getElementById(submitguess);
+  submitguess = document.getElementById("submitguess");
   submitguess.disabled = false;
-  guessesbadgeElem = document.getElementById(guessesbadge);
-  return number = Math.ceil((Math.random() * 100));
+  guessesbadgeElem = document.getElementById("guessesbadge");
+  number = Math.ceil((Math.random() * 100));
+  return;
 }

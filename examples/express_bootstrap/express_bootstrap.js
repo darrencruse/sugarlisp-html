@@ -23,7 +23,7 @@ function basePage(pageTitle, navBarLinks, bodyContent) {
         "\n        <div class=\"navbar navbar-fixed-top\">" + (
           "\n          <div class=\"navbar-inner\">" + (
             "\n            <div class=\"container\">" + (
-              "\n              <a class=\"btn btn-navbar\" data-toggle=\"collapse\" data-target=\".nav-collapse\">" + (
+              "\n              <a class=\"btn btn-navbar\" data=\"" + true + "\" -toggle=\"collapse\" data=\"" + true + "\" -target=\".nav-collapse\">" + (
                 "\n                <span class=\"icon-bar\"/>") + (
                 "\n                <span class=\"icon-bar\"/>") + (
                 "\n                <span class=\"icon-bar\"/>") +

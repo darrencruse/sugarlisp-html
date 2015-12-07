@@ -48,15 +48,17 @@ app.get("/", function(req, res) {
 });
 
 app.post("/send", bodyParser(), function(req, res) {
-  return ((req.body && req.body.tweet) ?
+  if ((req.body && req.body.tweet)) {
     (function() {
       tweets.push(req.body.tweet);
       return res.redirect("/");
-    })() :
+    })()
+  } else {
     res.send({
       status: "nok",
       message: "No tweet Received"
-    }));
+    })
+  };
 });
 
 app.get("/tweets", function(req, res) {
