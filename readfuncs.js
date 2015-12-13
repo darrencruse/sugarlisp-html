@@ -1,6 +1,6 @@
-var sl = require('sugarlisp-core/types'),
+var sl = require('sugarlisp-core/sl-types'),
     reader = require('sugarlisp-core/reader'),
-    corerfuncs = require('sugarlisp-core/readfuncs');
+    plusrfuncs = require('sugarlisp-plus/readfuncs');
 
 // parse an html element (when the parser has just encountered the opening "<")
 exports.read_html_element = function(source) {
@@ -116,7 +116,7 @@ exports.read_html_attributes = function(source) {
       source.skip_text("=");
 
       // read the attribute value (which may include ${} placeholders)
-      var attrVal = corerfuncs.read_template_string(source, undefined, undefined, ['+']);
+      var attrVal = plusrfuncs.read_template_string(source, undefined, undefined, ['+']);
       list.push(attrVal);
     }
     else {
@@ -134,7 +134,7 @@ exports.read_html_attributes = function(source) {
   }
   list.setClosing(source);
 
-  list = corerfuncs.even_keys_to_list_properties(list);
+  list = plusrfuncs.even_keys_to_list_properties(list);
 
   // note we have intentionally *not* read the ending ">" or "/>"
   return list;
