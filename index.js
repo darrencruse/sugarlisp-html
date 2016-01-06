@@ -1,5 +1,7 @@
 
 module.exports = {
-  syntax: require('./syntax'),
-  keywords: require('./keywords')
+  name: "html",
+  lextab: require('./lextab'),
+  readtab: require('./readtab'),
+  gentab: require('./gentab')
 };
