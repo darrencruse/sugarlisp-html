@@ -1,6 +1,7 @@
 // SugarScript example using nodejs, expressjs, twitter bootstrap 
 // and the SugarLisp "html" dialect
 
+#use "htmlreader"
 #use "html"
 
 // The express server

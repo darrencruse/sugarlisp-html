@@ -1,5 +1,6 @@
 //#transpile { to: 'core' }
 
+#use "htmlreader"
 #use "html"
 
 #cell guess_cell

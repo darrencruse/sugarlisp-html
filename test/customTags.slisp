@@ -1,3 +1,4 @@
+#use "htmlreader"
 #use "html"
 #use "match"
 
@@ -31,12 +32,12 @@
 
 //-- myb will likewise be expanded at compile time
 //-- "#keyword" means myb gets included in the current keywords
-#keyword (function myb {
-  case ``("myb" attrs body)``
-    <span id="${attrs.href}">${(@x body)}</span>
-
-  default (@error "missing argument for myb");
-})
+//#keyword (function myb {
+//  case ``("myb" attrs body)``
+//    <span id="${attrs.href}">${(@x body)}</span>
+//
+//  default (@error "missing argument for myb");
+//})
 
 // using myb with lispy forms
 (console.log (tag "myb" (attr href "http://www.google.com") 
