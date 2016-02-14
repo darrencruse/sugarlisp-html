@@ -1,6 +1,7 @@
 ;; A Twitter like web app
 ;; Requires express js.
 
+#use "htmlreader"
 #use "html"
 
 ;; The express server
